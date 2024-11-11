@@ -17,7 +17,8 @@ public class Aim : MonoBehaviour
 		rb = GetComponent<Rigidbody>();
 		cam = GetComponentInChildren<Camera>();
 		Cursor.visible = false;
-	}
+        Cursor.lockState = CursorLockMode.Confined;
+    }
 
 	// Update is called once per frame
 	void Update()

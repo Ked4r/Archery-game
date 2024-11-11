@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class EmbedBehavior : MonoBehaviour
 {
-    Rigidbody rigidB;
+    Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
-        rigidB = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -29,8 +29,8 @@ public class EmbedBehavior : MonoBehaviour
         GetComponent<Collider>().enabled = false;
         //impactSound.Play();
         transform.GetComponent<ProjectileAddForce>().enabled = false;
-        rigidB.velocity = Vector3.zero;
-        rigidB.useGravity = false;
-        rigidB.isKinematic = true;
+        rb.velocity = Vector3.zero;
+        rb.useGravity = false;
+        rb.isKinematic = true;
     }
 }
