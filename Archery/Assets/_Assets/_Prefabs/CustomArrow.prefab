@@ -10,6 +10,21 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: ff007f25637e8cf458a5940faeb3f7b5,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ff007f25637e8cf458a5940faeb3f7b5,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ff007f25637e8cf458a5940faeb3f7b5,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ff007f25637e8cf458a5940faeb3f7b5,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.998238
       objectReference: {fileID: 0}
@@ -57,6 +72,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ff007f25637e8cf458a5940faeb3f7b5,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -3887185075125053422, guid: ff007f25637e8cf458a5940faeb3f7b5,
         type: 3}
@@ -144,8 +164,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.01, y: 0.01, z: 0.252285}
-  m_Center: {x: 0.00006568432, y: 0.00009108544, z: 0.105106354}
+  m_Size: {x: 0.01, y: 0.01, z: 0.4637413}
+  m_Center: {x: 0.00006568432, y: 0.00009108521, z: 0.126791}
 --- !u!54 &3920158039715401420
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -185,7 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1e3018eccdc98a489cf616e2e1d4e87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootForce: 75
+  shootForce: 50
 --- !u!114 &5394344159349404647
 MonoBehaviour:
   m_ObjectHideFlags: 0
