@@ -8,7 +8,7 @@ public class Aim : MonoBehaviour
 	[SerializeField] Camera cam;
 	[SerializeField] bool _invertX = false;
 	[SerializeField] bool _invertY = true;
-	[SerializeField, Range(0.0f, 5.0f)] float aimSensitivity = 1;
+	[SerializeField, Range(0.0f, 10.0f)] float aimSensitivity = 1;
 	[SerializeField, Range(-1.00f, 1.00f)] float aimSensitivityRatio = 0;	// 0 reprezentuje 1:1; ujemne powoduje mniejszy X, dodatnie powoduje wiêkszy Y; wartoœæ reprezentuje róŸnicê od 1, wiêc np. -0.4 reprezentuje 0.6:1
 
 	// Start is called before the first frame update
