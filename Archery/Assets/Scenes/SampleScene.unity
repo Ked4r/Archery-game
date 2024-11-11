@@ -1035,7 +1035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 1887534965782125384, guid: 5d631fa589292124faae3e36243dac55,
     type: 3}
-  numberOfArrows: 3
+  numberOfArrows: 1000
   bow: {fileID: 1478950772}
   pullSpeed: 50
 --- !u!1 &1681027992
