@@ -10,9 +10,12 @@ public class Aim : MonoBehaviour
     [SerializeField] bool _invertY = true;
     [SerializeField, Range(0.0f, 10.0f)] float aimSensitivity = 1;
     [SerializeField, Range(-1.00f, 1.00f)] float aimSensitivityRatio = 0;   // 0 represents 1:1; negative reduces X, positive increases Y; value represents the difference from 1, so -0.4 represents 0.6:1
-    [SerializeField] float zoomedFOV = 30.0f; // Field of view when zoomed in
+    [SerializeField] float zoomedFOV = 15.0f; // Field of view when zoomed in
     [SerializeField] float normalFOV = 60.0f; // Normal field of view
     [SerializeField] float zoomSpeed = 5.0f;  // Speed of FOV transition
+
+
+    private bool isActive = false;
 
     // Start is called before the first frame update
     void Start()
@@ -24,11 +27,14 @@ public class Aim : MonoBehaviour
 
         // Set initial FOV to normal
         cam.fieldOfView = normalFOV;
+        StartCoroutine(EnableAfterDelay(9.0f));
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isActive) return;
+
         AimLogic();
         HandleZoom();
     }
@@ -74,5 +80,10 @@ public class Aim : MonoBehaviour
             // Smoothly transition back to the normal FOV
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, normalFOV, zoomSpeed * Time.deltaTime);
         }
+    }
+    IEnumerator EnableAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        isActive = true; // Activate the script
     }
 }

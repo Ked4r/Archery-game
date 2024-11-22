@@ -11,17 +11,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ff007f25637e8cf458a5940faeb3f7b5,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ff007f25637e8cf458a5940faeb3f7b5,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ff007f25637e8cf458a5940faeb3f7b5,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ff007f25637e8cf458a5940faeb3f7b5,
         type: 3}
@@ -118,6 +118,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CustomArrow
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ff007f25637e8cf458a5940faeb3f7b5,
+        type: 3}
+      propertyPath: m_TagString
+      value: Arrow
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -205,7 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1e3018eccdc98a489cf616e2e1d4e87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootForce: 50
+  shootForce: 150
 --- !u!114 &5394344159349404647
 MonoBehaviour:
   m_ObjectHideFlags: 0

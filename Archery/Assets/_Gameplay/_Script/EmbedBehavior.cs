@@ -20,6 +20,7 @@ public class EmbedBehavior : MonoBehaviour
 
     private void OnTriggerEnter(Collider coll)
     {
+        if (coll.CompareTag("WindArea")) return;
         Embed();
         transform.parent = coll.transform.parent;
     }
