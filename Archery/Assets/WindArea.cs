@@ -34,13 +34,13 @@ public class WindArea : MonoBehaviour
 
     private void UpdateWindDirection()
     {
-        // Losowy kierunek wiatru w p≥aszczyünie XY
+        // Losowy kierunek wiatru w p≥aszczyünie XZ
         float randomX = Random.Range(-1f, 1f);
-        float randomY = Random.Range(-1f, 1f);
+        float randomZ = Random.Range(-1f, 1f);
 
         // Normalizacja wektora i skalowanie przez losowπ si≥Í
         float randomStrength = Random.Range(0f, maxWindStrength);
-        Vector3 randomDirection = new Vector3(randomX, randomY, 0).normalized * randomStrength;
+        Vector3 randomDirection = new Vector3(randomX, 0, randomZ).normalized * randomStrength;
 
         // Aktualizacja si≥y wiatru
         windForce = randomDirection;
@@ -53,7 +53,7 @@ public class WindArea : MonoBehaviour
         if (windIndicator == null || windStrengthText == null) return;
 
         // Obliczenie kπta z wektora wiatru (na podstawie x i y)
-        float angle = Mathf.Atan2(windForce.y, -windForce.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(windForce.z, -windForce.x) * Mathf.Rad2Deg;
 
         // ObrÛt strza≥ki tylko na osi Z
         windIndicator.rotation = Quaternion.Euler(0, 0, angle);
