@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 
 public class ProjectileAddForce : MonoBehaviour
@@ -21,6 +22,13 @@ public class ProjectileAddForce : MonoBehaviour
     void Update()
     {
         SpinObjectInAir();
+
+        // Start point of the line
+        Vector3 startPoint = transform.position;
+
+        Vector3 endPoint = startPoint + transform.forward * 5f;
+
+        Debug.DrawLine(startPoint, endPoint, Color.red);
     }
 
     void ApplyForce()

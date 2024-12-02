@@ -9,6 +9,7 @@ public class Aim : MonoBehaviour
     [SerializeField] bool _invertX = false;
     [SerializeField] bool _invertY = true;
     [SerializeField, Range(0.0f, 10.0f)] float aimSensitivity = 1;
+    [SerializeField, Range(0.0f, 10.0f)] float aimZoomedSensitivity = 0.25f;
     [SerializeField, Range(-1.00f, 1.00f)] float aimSensitivityRatio = 0;   // 0 represents 1:1; negative reduces X, positive increases Y; value represents the difference from 1, so -0.4 represents 0.6:1
     [SerializeField] float zoomedFOV = 15.0f; // Field of view when zoomed in
     [SerializeField] float normalFOV = 60.0f; // Normal field of view

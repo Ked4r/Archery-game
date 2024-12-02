@@ -55,8 +55,14 @@ public class Shoot : MonoBehaviour
             }
             if (Input.GetMouseButtonUp(0))
             {
+                //Time.timeScale = 0.1f;
                 arrowSlotted = false;
                 _arrowRb.isKinematic = false;
+
+                arrow.transform.position = bow.transform.parent.transform.position;
+                arrow.transform.localRotation *= Quaternion.Inverse(bow.transform.localRotation);
+                //arrow.transform.rotation *= Quaternion.Inverse(bow.transform.localRotation);
+
                 arrow.transform.parent = null;
                 numberOfArrows--;
                 _arrowProjectile.shootForce *= (pullAmount / 100f);

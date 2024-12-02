@@ -189,7 +189,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -277,6 +277,7 @@ MonoBehaviour:
   _invertX: 1
   _invertY: 0
   aimSensitivity: 1
+  aimZoomedSensitivity: 0.25
   aimSensitivityRatio: 0
   zoomedFOV: 5
   normalFOV: 60
@@ -741,32 +742,32 @@ PrefabInstance:
     - target: {fileID: 6297884375031333577, guid: 5a124523fcb30244a86e969beb99d47d,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99956614
+      value: 0.9999216
       objectReference: {fileID: 0}
     - target: {fileID: 6297884375031333577, guid: 5a124523fcb30244a86e969beb99d47d,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.009039849
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6297884375031333577, guid: 5a124523fcb30244a86e969beb99d47d,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.025192419
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6297884375031333577, guid: 5a124523fcb30244a86e969beb99d47d,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.012297151
+      value: 0.0125224395
       objectReference: {fileID: 0}
     - target: {fileID: 6297884375031333577, guid: 5a124523fcb30244a86e969beb99d47d,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6297884375031333577, guid: 5a124523fcb30244a86e969beb99d47d,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -2.9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6297884375031333577, guid: 5a124523fcb30244a86e969beb99d47d,
         type: 3}
@@ -1140,7 +1141,7 @@ MonoBehaviour:
   windForce: {x: 0, y: 0, z: 1}
   affectOnlyArrows: 1
   changeInterval: 15
-  maxWindStrength: 2
+  maxWindStrength: 0
   windIndicator: {fileID: 1960214729}
   windStrengthText: {fileID: 1448461403}
 --- !u!1 &513369686
@@ -7154,7 +7155,7 @@ MonoBehaviour:
     type: 3}
   numberOfArrows: 1000
   bow: {fileID: 1478950772}
-  pullSpeed: 100
+  pullSpeed: 200
 --- !u!1 &1681027992
 GameObject:
   m_ObjectHideFlags: 0
