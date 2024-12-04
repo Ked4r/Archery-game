@@ -1,43 +1,62 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Aim : MonoBehaviour
 {
     Rigidbody rb;
-    [SerializeField] Camera cam;
-    [SerializeField] bool _invertX = false;
-    [SerializeField] bool _invertY = true;
+    [SerializeField] Camera mainCamera; // G³ówna kamera
+    [SerializeField] Camera arrowCamera; // Kamera œledz¹ca strza³ê
+    [SerializeField] bool _invertX = true;
+    [SerializeField] bool _invertY = false;
     [SerializeField, Range(0.0f, 10.0f)] float aimSensitivity = 1;
     [SerializeField, Range(0.0f, 10.0f)] float aimZoomedSensitivity = 0.25f;
-    [SerializeField, Range(-1.00f, 1.00f)] float aimSensitivityRatio = 0;   // 0 represents 1:1; negative reduces X, positive increases Y; value represents the difference from 1, so -0.4 represents 0.6:1
-    [SerializeField] float zoomedFOV = 15.0f; // Field of view when zoomed in
-    [SerializeField] float normalFOV = 60.0f; // Normal field of view
-    [SerializeField] float zoomSpeed = 5.0f;  // Speed of FOV transition
+    [SerializeField, Range(-1.00f, 1.00f)] float aimSensitivityRatio = 0;
+    [SerializeField] float zoomedFOV = 5.0f;
+    [SerializeField] float normalFOV = 60.0f;
+    [SerializeField] float zoomSpeed = 5.0f;
 
+    [SerializeField] float minVerticalAngle = -5f;
+    [SerializeField] float maxVerticalAngle = 5f;
+    [SerializeField] float minHorizontalAngle = 25f;
+    [SerializeField] float maxHorizontalAngle = 35f;
 
     private bool isActive = false;
+    private Transform arrowTransform = null;
+    private Vector3 originalCameraPosition;
+    private Quaternion originalCameraRotation;
+    private bool isFollowingArrow = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        cam = GetComponentInChildren<Camera>();
+
+        // G³ówna kamera jest aktywna na starcie, kamera strza³y wy³¹czona
+        mainCamera.enabled = true;
+        arrowCamera.enabled = false;
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
 
-        // Set initial FOV to normal
-        cam.fieldOfView = normalFOV;
+        mainCamera.fieldOfView = normalFOV;
+        originalCameraPosition = mainCamera.transform.position;
+        originalCameraRotation = mainCamera.transform.rotation;
+
         StartCoroutine(EnableAfterDelay(9.0f));
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!isActive) return;
 
-        AimLogic();
-        HandleZoom();
+        if (isFollowingArrow && arrowTransform != null)
+        {
+            FollowArrow();
+        }
+        else
+        {
+            AimLogic();
+            HandleZoom();
+        }
     }
 
     void AimLogic()
@@ -64,27 +83,80 @@ public class Aim : MonoBehaviour
             _rotationY *= -1;
         }
 
-        rb.MoveRotation(rb.rotation * Quaternion.Euler(_rotationY * aimSensitivity));
-        cam.transform.Rotate(_rotationX * aimSensitivity);
+        mainCamera.transform.Rotate(_rotationX * aimSensitivity, Space.Self);
+        float currentXAngle = mainCamera.transform.localEulerAngles.x;
+        if (currentXAngle > 180) currentXAngle -= 360;
+        currentXAngle = Mathf.Clamp(currentXAngle, minVerticalAngle, maxVerticalAngle);
+
+        mainCamera.transform.localEulerAngles = new Vector3(currentXAngle, mainCamera.transform.localEulerAngles.y, mainCamera.transform.localEulerAngles.z);
+
+        Quaternion newRotation = rb.rotation * Quaternion.Euler(_rotationY * aimSensitivity);
+        Vector3 newEuler = newRotation.eulerAngles;
+        if (newEuler.y > 180) newEuler.y -= 360;
+        newEuler.y = Mathf.Clamp(newEuler.y, minHorizontalAngle, maxHorizontalAngle);
+
+        rb.rotation = Quaternion.Euler(newEuler.x, newEuler.y, newEuler.z);
     }
 
     void HandleZoom()
     {
-        // Check if the right mouse button is held down
         if (Input.GetMouseButton(1))
         {
-            // Smoothly transition to the zoomed FOV
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, zoomedFOV, zoomSpeed * Time.deltaTime);
+            mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, zoomedFOV, zoomSpeed * Time.deltaTime);
         }
         else
         {
-            // Smoothly transition back to the normal FOV
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, normalFOV, zoomSpeed * Time.deltaTime);
+            mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, normalFOV, zoomSpeed * Time.deltaTime);
         }
     }
+
+    public void StartFollowingArrow(Transform arrow)
+    {
+        arrowTransform = arrow;
+        isFollowingArrow = true;
+
+        // Prze³¹cz na kamerê œledz¹c¹ strza³ê
+        mainCamera.enabled = false;
+        arrowCamera.enabled = true;
+
+        // Pocz¹tkowe ustawienie kamery wzglêdem strza³y
+        arrowCamera.transform.position = arrow.position - arrow.forward * 2 + Vector3.up * 1.0f;
+        arrowCamera.transform.LookAt(arrow);
+    }
+
+    public void StopFollowingArrow()
+    {
+        StartCoroutine(ResetCameraAfterDelay(1.0f));
+    }
+
+    void FollowArrow()
+    {
+        if (arrowTransform != null)
+        {
+            // Aktualizuj pozycjê i rotacjê kamery œledz¹cej strza³ê
+            arrowCamera.transform.position = arrowTransform.position - arrowTransform.forward * 2 + Vector3.up * 1.0f;
+            arrowCamera.transform.LookAt(arrowTransform);
+        }
+    }
+
+    IEnumerator ResetCameraAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        isFollowingArrow = false;
+        arrowTransform = null;
+
+        // Prze³¹cz z powrotem na g³ówn¹ kamerê
+        mainCamera.enabled = true;
+        arrowCamera.enabled = false;
+
+        // Przywróæ pozycjê i rotacjê g³ównej kamery
+        mainCamera.transform.position = originalCameraPosition;
+        mainCamera.transform.rotation = originalCameraRotation;
+    }
+
     IEnumerator EnableAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        isActive = true; // Activate the script
+        isActive = true;
     }
 }

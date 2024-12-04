@@ -1,15 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
-
 
 public class ProjectileAddForce : MonoBehaviour
 {
     Rigidbody rb;
     public float shootForce = 10f;
 
-    // Start is called before the first frame update
     void OnEnable()
     {
         rb = GetComponent<Rigidbody>();
@@ -17,24 +12,14 @@ public class ProjectileAddForce : MonoBehaviour
         ApplyForce();
     }
 
-
-    // Update is called once per frame
     void Update()
     {
         SpinObjectInAir();
-
-        // Start point of the line
-        Vector3 startPoint = transform.position;
-
-        Vector3 endPoint = startPoint + transform.forward * 5f;
-
-        Debug.DrawLine(startPoint, endPoint, Color.red);
     }
 
     void ApplyForce()
     {
         rb.AddRelativeForce(Vector3.forward * shootForce);
-
     }
 
     void SpinObjectInAir()
@@ -48,6 +33,4 @@ public class ProjectileAddForce : MonoBehaviour
 
         transform.eulerAngles = new Vector3(_fallAngle, transform.eulerAngles.y, transform.eulerAngles.x);
     }
-
-
 }

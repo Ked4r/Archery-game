@@ -1,16 +1,19 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Shoot : MonoBehaviour
 {
     [SerializeField] GameObject arrowPrefab;
     GameObject arrow;
-    [SerializeField] int numberOfArrows = 3;
+    [SerializeField] int numberOfArrows = 100;
     [SerializeField] GameObject bow;
     bool arrowSlotted = false;
     float pullAmount = 0;
-    [SerializeField] float pullSpeed = 50;
+    [SerializeField] float pullSpeed = 500;
+
+    // Referencja do g³ównej kamery i kamery strza³y
+    [SerializeField] Camera mainCamera;
+    [SerializeField] Camera arrowCamera;
 
     void Start()
     {
@@ -19,6 +22,12 @@ public class Shoot : MonoBehaviour
 
     void Update()
     {
+        // Strzelanie jest zablokowane, jeœli kamera œledz¹ca strza³ê jest aktywna
+        if (arrowCamera.enabled)
+        {
+            return;
+        }
+
         ShootLogic();
     }
 
@@ -27,9 +36,7 @@ public class Shoot : MonoBehaviour
         if (numberOfArrows > 0)
         {
             arrowSlotted = true;
-            Debug.Log("inst");
-            arrow = Instantiate(arrowPrefab, transform.position, transform.rotation) as GameObject;
-            Debug.Log("done");
+            arrow = Instantiate(arrowPrefab, transform.position, transform.rotation);
             arrow.transform.parent = transform;
         }
     }
@@ -55,19 +62,19 @@ public class Shoot : MonoBehaviour
             }
             if (Input.GetMouseButtonUp(0))
             {
-                //Time.timeScale = 0.1f;
                 arrowSlotted = false;
                 _arrowRb.isKinematic = false;
 
                 arrow.transform.position = bow.transform.parent.transform.position;
                 arrow.transform.localRotation *= Quaternion.Inverse(bow.transform.localRotation);
-                //arrow.transform.rotation *= Quaternion.Inverse(bow.transform.localRotation);
-
                 arrow.transform.parent = null;
                 numberOfArrows--;
                 _arrowProjectile.shootForce *= (pullAmount / 100f);
 
                 _arrowProjectile.enabled = true;
+
+                // Rozpocznij œledzenie strza³y
+                FindObjectOfType<Aim>().StartFollowingArrow(arrow.transform);
 
                 pullAmount = 0;
             }
