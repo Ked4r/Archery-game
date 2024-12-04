@@ -277,7 +277,6 @@ MonoBehaviour:
   _invertX: 1
   _invertY: 0
   aimSensitivity: 1
-  aimZoomedSensitivity: 0.25
   aimSensitivityRatio: 0
   zoomedFOV: 5
   normalFOV: 60
