@@ -8,8 +8,9 @@ public class Aim : MonoBehaviour
     [SerializeField] Camera arrowCamera; // Kamera œledz¹ca strza³ê
     [SerializeField] bool _invertX = true;
     [SerializeField] bool _invertY = false;
-    [SerializeField, Range(0.0f, 10.0f)] float aimSensitivity = 1;
+    [SerializeField, Range(0.0f, 10.0f)] float aimSensitivity = 1f;
     [SerializeField, Range(0.0f, 10.0f)] float aimZoomedSensitivity = 0.25f;
+    float actualAimSensitivity = 1f;
     [SerializeField, Range(-1.00f, 1.00f)] float aimSensitivityRatio = 0;
     [SerializeField] float zoomedFOV = 5.0f;
     [SerializeField] float normalFOV = 60.0f;
@@ -83,14 +84,14 @@ public class Aim : MonoBehaviour
             _rotationY *= -1;
         }
 
-        mainCamera.transform.Rotate(_rotationX * aimSensitivity, Space.Self);
+        mainCamera.transform.Rotate(_rotationX * actualAimSensitivity, Space.Self);
         float currentXAngle = mainCamera.transform.localEulerAngles.x;
         if (currentXAngle > 180) currentXAngle -= 360;
         currentXAngle = Mathf.Clamp(currentXAngle, minVerticalAngle, maxVerticalAngle);
 
         mainCamera.transform.localEulerAngles = new Vector3(currentXAngle, mainCamera.transform.localEulerAngles.y, mainCamera.transform.localEulerAngles.z);
 
-        Quaternion newRotation = rb.rotation * Quaternion.Euler(_rotationY * aimSensitivity);
+        Quaternion newRotation = rb.rotation * Quaternion.Euler(_rotationY * actualAimSensitivity);
         Vector3 newEuler = newRotation.eulerAngles;
         if (newEuler.y > 180) newEuler.y -= 360;
         newEuler.y = Mathf.Clamp(newEuler.y, minHorizontalAngle, maxHorizontalAngle);
@@ -103,10 +104,12 @@ public class Aim : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, zoomedFOV, zoomSpeed * Time.deltaTime);
+            actualAimSensitivity = Mathf.Lerp(actualAimSensitivity, aimZoomedSensitivity, zoomSpeed * Time.deltaTime);
         }
         else
         {
             mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, normalFOV, zoomSpeed * Time.deltaTime);
+            actualAimSensitivity = Mathf.Lerp(actualAimSensitivity, aimSensitivity, zoomSpeed * Time.deltaTime);
         }
     }
 
